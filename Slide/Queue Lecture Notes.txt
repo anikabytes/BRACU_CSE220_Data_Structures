@@ -1,0 +1,70 @@
+class arrayQueue :
+
+    rear = 0 
+    front = 0 
+
+    def __init__(self,cap) :
+
+        self.array = [0]*cap 
+        
+    def enqueue(self,val) :
+
+        if self.array[self.rear] != 0 :
+            print('StackOverflowError')
+        self.array[self.rear] = val 
+        self.rear = (self.rear+1)%len(self.array)
+    
+    def dequeue(self) :
+        if self.array[self.front] == 0 :
+            print('StackUnderflowError')
+        self.array[self.front] = 0 
+        self.front = (self.front+1)%len(self.array)
+    
+    def peek(self) :
+
+        return self.array[self.front]
+        
+        
+        
+    def print(self) :
+        print(self.array)
+
+
+
+
+class Node :
+    def __init__(self,elem,next) :
+        self.elem = elem 
+        self.next = next 
+
+class listQueue :
+
+    def __init__(self) :
+        self.head = None 
+        self.tail = None 
+        
+    def enqueue(self,val) :
+
+        temp = Node(val,None)
+        if self.head == None :
+            self.head = temp 
+            self.tail = self.head 
+        else :
+            self.tail.next = temp 
+            self.tail = temp
+        
+    def dequeue(self) :
+
+        self.head = self.head.next 
+    
+    def peek(self) :
+
+        return self.head 
+        
+        
+        
+    def print(self) :
+        n = self.head 
+        while n != None :
+            print(n.elem)
+            n = n.next 
