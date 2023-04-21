@@ -1,0 +1,238 @@
+CSE220 LAB-7 
+-------------------------------------------------------------------------------------------
+NAME : ANIKA ISLAM 
+ID : 21101298
+SECTION : 04 
+-------------------------------------------------------------------------------------------
+
+# 1(a)
+def fact(n) :
+    if n == 1 or n == 0 :
+        return 1 
+    else :
+        return n*fact(n-1)
+fact(5)
+
+OUTPUT: 
+120 
+
+
+# 1(b)
+def fib(n) :
+    if n == 0 :
+        return 0 
+    elif n == 1 or n < 0 :
+        return 1 
+    else :
+        return fib(n-2) + fib(n-1)
+fib(6)
+
+OUTPUT: 
+8 
+
+
+# 1(c)
+def printArray(a,i) :
+    if i == len(a) - 1   :
+        print(a[i])
+    else :
+        print(a[i])
+        printArray(a,i+1)
+        
+printArray([10,20,30,40,50],0)
+
+OUTPUT:
+10
+20
+30
+40
+50
+
+
+# 1(d)
+def powerN(b,n) :
+    if n == 0 :
+        return 1
+    else :
+        return b*powerN(b,n-1)
+powerN(2,3)
+
+OUTPUT:
+8
+
+
+# 2(a)
+def convert(n) :
+    if n == 0 :
+        return 0
+    else :
+        return  str(convert(n//2)) + str((n%2))
+
+print(convert(10))
+
+OUTPUT:
+01010
+
+
+# 2(b)
+class Node :
+    def __init__(self,elem,next) :
+        self.elem = elem 
+        self.next = next 
+
+class linkedList :
+    def __init__(self,a) :
+        if type(a) == list :
+            self.head = Node(a[0],None)
+            tail = self.head 
+            for i in range(1,len(a)) :
+                temp = Node(a[i],None)
+                tail.next = temp 
+                tail = temp 
+        
+    def add(self,n) :
+        if n == None :
+            return 0 
+        else :
+            return n.elem + self.add(n.next)
+                    
+lis = linkedList([10,20,30,40,50])
+print(lis.add(lis.head))
+
+OUTPUT:
+150
+
+
+# 2(c) 
+class Node :
+    def __init__(self,elem,next) :
+        self.elem = elem 
+        self.next = next 
+
+class linkedList :
+    def __init__(self,a) :
+        if type(a) == list :
+            self.head = Node(a[0],None)
+            tail = self.head 
+            for i in range(1,len(a)) :
+                temp = Node(a[i],None)
+                tail.next = temp 
+                tail = temp 
+    def reverse(self,n) :
+
+        if n.next == None :
+            print(n.elem)
+        else :
+            self.reverse(n.next)
+            print(n.elem)
+lis = linkedList([10,20,30,40,50])
+lis.reverse(lis.head)
+
+OUTPUT:
+50
+40
+30
+20
+10
+
+
+# 3 
+def hocBuilder(n) :
+    if n <= 0 :
+        return 0 
+    elif n == 1 :
+        return 8 
+    else : 
+        return hocBuilder(n-1) + 5
+
+hocBuilder(4)
+
+OUTPUT:
+23
+
+
+# 4(a)
+def shift(i) :
+    if i == 0 :
+        return 0 
+    else :
+        shift(i-1)
+        pattern(i)
+        print()
+        
+def pattern(s) :
+    if s == 0 :
+        return 0 
+    else :
+        pattern(s-1)
+        print(s,end='')
+        
+shift(5)
+
+OUTPUT:
+1
+12
+123
+1234
+12345
+
+
+# 4(b)
+def shift(i,j) :
+    if i == 0 :
+        return 0 
+    else :
+        gap(i-1)
+        pattern(j-i+1)
+        print()
+        shift(i-1,j)
+
+def gap(k) :
+    if k == 0 :
+        return 0 
+    else :
+        print(' ',end='')
+        gap(k-1)
+        
+def pattern(s) :
+    if s == 0 :
+        return 0 
+    else :
+        print(s,end='')
+        pattern(s-1)
+
+shift(5,5)
+
+OUTPUT: 
+    1
+   21
+  321
+ 4321
+54321
+
+
+# 5 
+class FinalQ :
+    def print(self,array,idx) :
+        if idx < len(array) :
+            print(str(idx+1)+'. Investment:'+str(array[idx])+';'+' Profit:'+str(self.calcProfit(array[idx])))
+            self.print(array,idx+1)
+            
+    def calcProfit(self,investment) :
+        if investment <= 25000 :
+            return 0.0 
+        elif 25000 < investment <= 100000 : 
+            return (((4.5/100)*1000) + self.calcProfit(investment-(100000/100)))
+        else :
+            return (((8/100)*1000) + self.calcProfit(investment-(100000/100)))
+
+
+array=[25000,100000,250000,350000] 
+f = FinalQ() 
+f.print(array,0)
+
+OUTPUT: 
+1. Investment:25000; Profit:0.0
+2. Investment:100000; Profit:3375.0
+3. Investment:250000; Profit:15375.0
+4. Investment:350000; Profit:23375.0

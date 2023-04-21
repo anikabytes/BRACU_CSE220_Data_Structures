@@ -1,0 +1,153 @@
+CSE220 LAB-6 
+-------------------------------------------------------------------------------------------
+NAME : ANIKA ISLAM 
+ID : 21101298
+SECTION : 04 
+-------------------------------------------------------------------------------------------
+
+# 1 
+
+class KeyIndex :
+
+    def __init__(self,a) :
+
+        min = a[0] 
+        max = a[0]
+        for i in range(0,len(a)) :
+            if a[i] < min :
+                min = a[i]
+            if a[i] > max :
+                max = a[i]
+        
+        if min < 0 :
+            self.shift = min * (-1)
+        else : 
+            self.shift = 0 
+        
+        self.k = [0]*(max+1+self.shift)
+        
+        for j in range(0,len(self.k)) :
+            for k in range(0,len(a)) :
+                if j == a[k]+self.shift :
+                    self.k[j] += 1 
+    
+    def print(self) :
+
+        ans = ''
+        for i in self.k :
+            ans += str(i) + ' '
+        print(ans)
+    
+    def search(self,val) :
+
+        flag = False 
+        if val+self.shift < 0 or val+self.shift >= len(self.k) :
+            flag = False 
+        elif self.k[val+self.shift] != 0 :
+            flag = True 
+        return flag 
+        
+    
+    def sort(self) :
+
+        size = 0 
+        n = 0 
+        for i in range(0,len(self.k)) :
+            size += self.k[i]
+        new_k = [0]*size
+
+        for j in range(0,len(self.k)) :
+            if self.k[j] != 0 :
+                for l in range(0,self.k[j]) :
+                    new_k[n] = j - self.shift 
+                    n += 1 
+        self.k = new_k 
+        return self.k 
+
+            
+lis1 = KeyIndex([2,4,3,4,3,8,1,-1,-3])
+lis1.print()
+print(lis1.search(8))
+lis1.sort()
+lis1.print()
+
+
+OUTPUT : 
+
+1 0 1 0 1 1 2 2 0 0 0 1 
+True
+-3 -1 1 2 3 3 4 4 8 
+
+
+
+
+#2 
+class Hashing : 
+
+    def __init__(self,a) :
+ 
+        stringArray = [0]*len(a) 
+        for i in range(0,len(a)) :
+            stringArray[i] = a[i]
+        self.stringArray = stringArray 
+        self.HashTable = [0]*9
+
+    def hashFunc(self,val) :
+
+        digit_lis = '1,2,3,4,5,6,7,8,9,0'
+        vowel_lis = 'A,E,I,O,U'
+        
+        consonant = ''
+        digit_num = 0 
+        for j in val : 
+            if j in digit_lis :
+                digit_num += int(j)
+            if j not in vowel_lis and j not in digit_lis : 
+                consonant += j 
+        func = ((len(consonant)*24) + digit_num )%9
+        return func
+    
+    def linearProbe(self) : 
+        
+        for i in self.stringArray :
+            check = self.hashFunc(i)
+            
+            if self.HashTable[check] != 0 :
+                while self.HashTable[check] != 0 : 
+                    check = (check + 1) % 9
+            self.HashTable[check] = i 
+    
+    def print(self) :
+
+        store = ''
+        for i in self.HashTable :
+            if i != 0 :
+                store += i + ' '
+        print(store)
+
+    def search(self,val) :
+
+        i = self.hashFunc(val)
+        count = 0 
+        flag = False 
+        if self.HashTable[i] != val :
+            while count < 9   :
+                i = (i+1)%9
+                if self.HashTable[i] == val :
+                    flag = True 
+                count += 1 
+        else :
+            flag = True  
+        return flag  
+
+lis1 = Hashing(['CSE220','CSE221','CSE260','CSE230','MAT216','PHY112','STA201','MAT110','ENG101'])
+lis1.linearProbe()
+lis1.print()
+print(lis1.search('CSE220'))
+
+
+
+OUTPUT :
+
+CSE230 ENG101 CSE260 MAT216 PHY112 MAT110 STA201 CSE220 CSE221 
+True

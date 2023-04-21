@@ -1,0 +1,280 @@
+CSE220 LAB-5 
+-------------------------------------------------------------------------------------------
+NAME : ANIKA ISLAM 
+ID : 21101298
+SECTION : 04 
+-------------------------------------------------------------------------------------------
+
+# 1 
+class ArrayStack :
+
+    def __init__(self,cap) :
+        self.array = [None]*cap
+        self.size = 0 
+    
+    def push(self,elem) :
+        if self.size >= len(self.array) :
+            print('StackOverflow Error')
+        else :
+            self.array[self.size] = elem 
+            self.size += 1 
+        return self.array[self.size]
+    
+    def peek(self) :
+        return self.array[self.size-1]
+    
+    def pop(self) :
+        if self.size == 0 :
+            removed = 'StackUnderflow Error'
+        else :
+            removed = self.array[self.size-1]
+            self.array[self.size-1] = None 
+            self.size -= 1 
+        return removed
+
+    
+    def print(self) :
+        store = ''
+        for i in range(0,self.size) :
+            if self.size == 0 :
+                store = 'Stack is empty' 
+            else :
+                store += str(self.array[i]) + ' '
+        print(store)
+
+    def isEmpty(self) :
+        if self.size == 0 :
+            return True 
+        else :
+            return False 
+
+class Paranthesis(ArrayStack) :
+    
+    def __init__(self,input,size):
+        super().__init__(size)
+        self.input = input 
+    def check(self) :
+
+        check_open = None 
+        check_close = None 
+        error = ''
+        ans = True 
+        i = 0 
+        idx = 0 
+        count = 0 
+
+        for i in range(0,len(self.input)) : 
+            idx += 1 
+            if self.input[i] == '(' or self.input[i] == '[' or self.input[i] == '{' :
+                count = len(self.input) - i 
+                check_open = super().push(self.input[i])
+            if self.input[i] == ')' or self.input[i] == ']' or self.input[i] == '}' :
+                check_open = super().pop()
+                check_close = self.input[i]
+                if (check_open == '(' and check_close == ')') or (check_open == '[' and check_close == ']') or (check_open == '{' and check_close == '}') :
+                    ans = True  
+                else :
+                    ans = False 
+                    if check_open == '(' or check_open == '[' or check_open == '{' :
+                        error = f'Error at character #{count}.`{check_open}`- not closed'
+                    elif check_close == ')' or check_close == ']' or check_close == '}' :
+                        error = f'Error at character #{idx}.`{check_close}`- not opened'
+                    break 
+        
+        if super().isEmpty() == False :
+            ans = False 
+
+        if ans == True :
+            return self.input + '\n' + 'This expression is correct' 
+        else :
+            return self.input + '\n' + 'This expression is NOT correct' + '\n' + error 
+
+input1 = input()
+input2 = input()
+input3 = input()
+input4 = input() 
+i = Paranthesis(input1,len(input1))
+print('***** OUTPUT1 *****')
+print(i.check())
+j = Paranthesis(input2,len(input2))
+print('***** OUTPUT2 *****')
+print(j.check())
+k = Paranthesis(input3,len(input3))
+print('***** OUTPUT3 *****')
+print(k.check())
+l = Paranthesis(input4,len(input4))
+print('***** OUTPUT4 *****')
+print(l.check())
+
+
+
+INPUT : 
+
+1+2*(3/4)
+1+2*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14
+1+2*[3*3+{4–5(6(7/8/9)+10)}–11+(12*8)/{13+13}]+14
+1+2]*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14
+
+
+
+OUTPUT : 
+
+***** OUTPUT1 *****
+1+2*(3/4)
+This expression is correct
+***** OUTPUT2 *****
+1+2*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14
+This expression is NOT correct
+Error at character #10.`{`- not closed
+***** OUTPUT3 *****
+1+2*[3*3+{4–5(6(7/8/9)+10)}–11+(12*8)/{13+13}]+14
+This expression is correct
+***** OUTPUT4 *****
+1+2]*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14
+This expression is NOT correct
+Error at character #4.`]`- not opened
+
+
+
+
+
+# 2 
+class Node :
+    def __init__(self,element,next) :
+        self.element = element 
+        self.next = next 
+
+class ListStack :
+    def __init__(self,top=None) :
+        self.top = top 
+    
+    def push(self,elem) :
+        createNode = Node(elem,None)
+        if self.top == None :
+            self.top = createNode
+        else :
+            createNode.next = self.top 
+            self.top = createNode 
+
+    def peek(self) :
+        return self.top.element
+    
+    def pop(self) :
+        if self.top == None :
+            removed = 'StackUnderflow Error'
+        else :
+            removeNode = self.top 
+            removed = removeNode.element 
+            self.top = self.top.next 
+            removeNode.next = None 
+            removeNode = None 
+            return removed 
+    
+    def isEmpty(self) :
+        if self.top == None :
+            return True 
+        else :
+            return False 
+
+    def print(self) :
+        head = self.top  
+        store = ''
+        while head != None :
+            if head.element != None :
+                store += str(head.element) + ' '
+            head = head.next 
+        print(store)
+
+class Paranthesis(ListStack) :
+    
+    def __init__(self,input):
+        super().__init__()
+        self.input = input 
+    def check(self) :
+
+        check_open = None 
+        check_close = None 
+        error = ''
+        ans = True 
+        idx = 0 
+        count = 0 
+
+        for i in range(0,len(self.input)) :
+
+            idx += 1  
+
+            if self.input[i] == '(' or self.input[i] == '[' or self.input[i] == '{' :
+                count = len(self.input) - i 
+                check_open = super().push(self.input[i])
+            if self.input[i] == ')' or self.input[i] == ']' or self.input[i] == '}' :
+                check_open = super().pop()
+                check_close = self.input[i]
+                if (check_open == '(' and check_close == ')') or (check_open == '[' and check_close == ']') or (check_open == '{' and check_close == '}') :
+                    ans = True  
+                else :
+                    ans = False 
+                    if check_open == '(' or check_open == '[' or check_open == '{' :
+                        error = f'Error at character #{count}.`{check_open}`- not closed'
+                    elif check_close == ')' or check_close == ']' or check_close == '}' :
+                        error = f'Error at character #{idx}.`{check_close}`- not opened'
+                    break 
+        
+        if super().isEmpty() == False :
+            ans = False 
+
+        if ans == True :
+            return self.input + '\n' + 'This expression is correct' 
+        else :
+            return self.input + '\n' + 'This expression is NOT correct' + '\n' + error 
+
+
+
+
+
+
+
+input1 = input()
+input2 = input()
+input3 = input()
+input4 = input() 
+i = Paranthesis(input1)
+print('***** OUTPUT1 *****')
+print(i.check())
+print('***** OUTPUT2 *****')
+print(j.check())
+print('***** OUTPUT3 *****')
+print(k.check())
+print('***** OUTPUT4 *****')
+print(l.check())
+
+
+
+INPUT : 
+
+1+2*(3/4)
+1+2*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14
+1+2*[3*3+{4–5(6(7/8/9)+10)}–11+(12*8)/{13+13}]+14
+1+2]*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14
+
+
+
+OUTPUT : 
+
+***** OUTPUT1 *****
+1+2*(3/4)
+This expression is correct
+***** OUTPUT2 *****
+1+2*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14
+This expression is NOT correct
+Error at character #10.`{`- not closed
+***** OUTPUT3 *****
+1+2*[3*3+{4–5(6(7/8/9)+10)}–11+(12*8)/{13+13}]+14
+This expression is correct
+***** OUTPUT4 *****
+1+2]*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14
+This expression is NOT correct
+Error at character #4.`]`- not opened
+
+
+
+

@@ -1,0 +1,231 @@
+CSE220 LAB-1 
+-------------------------------------------------------------------------------------------
+NAME : ANIKA ISLAM 
+ID : 21101298
+SECTION : 04 
+-------------------------------------------------------------------------------------------
+
+LINEAR ARRAY 
+
+# (1) Shift left k cells 
+
+def shiftLeft(array,k) :
+   
+    for i in range(0,k) : 
+        for j in range(0,len(array)-1) :
+            array[j] = array[j+1]
+        array[len(array)-1] = 0 
+    print(array)
+    
+source = [10,20,30,40,50,60]
+shiftLeft(source,3)
+
+OUTPUT : [40,50,60,0,0,0]
+
+
+# (2) Rotate left k cells 
+
+def rotateLeft(array,k) :
+
+    for i in range(0,k) : 
+        for j in range(0,len(array)-1) :
+            if j == 0 :
+                temp = array[j]
+            array[j] = array[j+1]
+        array[len(array)-1] =  temp
+    print(array)
+
+source=[10,20,30,40,50,60]
+rotateLeft(source,3)
+
+OUTPUT : [40,50,60,10,20,30]
+
+
+# (3) Shift right k cells 
+
+def shiftRight(array,k) :
+    for i in range(0,k) :
+        for j in range(len(array)-1,-1,-1) :
+            array[j] = array[j-1]
+        array[0] = 0 
+    print(array)
+
+source=[10,20,30,40,50,60]
+shiftRight(source,3)
+
+OUTPUT : [0, 0, 0, 10, 20, 30]
+
+
+
+# (4) Rotate right k cells 
+
+def rotateRight(array,k) :
+
+    for i in range(0,k) :
+            for j in range(len(array)-1,-1,-1) :
+                if j == len(array)-1 :
+                    temp = array[j]
+                array[j] = array[j-1]
+            array[0] = temp 
+    print(array)
+
+source=[10,20,30,40,50,60]
+rotateRight(source,3)
+
+OUTPUT : [40, 50, 60, 10, 20, 30]
+
+
+# (5) Remove an element from an array
+
+def remove(array,size,idx) :
+
+    for i in range(idx,size) :
+        array[i] = array[i+1]
+    array[size-1] = 0
+    print(array)
+
+source=[10,20,30,40,50,0,0]
+remove(source,5,2)
+
+OUTPUT : [10, 20, 40, 50, 0, 0, 0]
+
+
+
+# (6) Remove all occurrences of a particular element from an array
+
+def removeAll(array,size,elem) :
+    
+    count = 0
+
+    for p in range(0,size) :
+        if array[p] == elem :
+            count += 1
+
+    for k in range(0,count) :
+        for i in range(0,size) :
+            if array[i] == elem :
+                for j in range(i,size) :
+                    array[j] = array[j+1]
+                array[size-1] = 0 
+                size -= 1
+
+    print(array)
+    
+source = [10,2,30,2,50,2,2,0,0]
+removeAll(source,7,2)
+
+OUTPUT : [10, 30, 50, 0, 0, 0, 0, 0, 0]
+
+
+# (7) Splitting an Array
+
+def balance(array,num) :
+
+    ans = False 
+
+    for i in range(0,len(array)) :
+        left_sum = 0 
+        right_sum = 0 
+        left = 0 
+        right = num 
+        for j in range(0,num) :
+            left_sum += array[left]
+            left += 1 
+        for p in range(num,len(array)) :
+            right_sum += array[right]
+            right += 1 
+
+        if right_sum == left_sum :
+            ans = True 
+        else :
+            num += 1 
+
+    print(ans)
+
+source = [1,1,1,2,1]
+balance(source,1)
+
+OUTPUT : True 
+
+
+# (8) Array series
+
+def arraySeries(num) :
+
+    final_array = [0]
+    part = num 
+
+    for i in range(1,num+1):
+        array = [0]*num
+        for j in range(1,i+1):
+            array[part-j] = j 
+        final_array += array
+
+    print(final_array)
+
+arraySeries(4)
+
+OUTPUT : [0, 0, 0, 1, 0, 0, 2, 1, 0, 3, 2, 1, 4, 3, 2, 1]
+
+
+# (9) Max Bunch Count 
+
+def maxcount(array) :
+
+    maxcount = 0 
+
+    for i in range(0,len(array)) :
+        count = 1 
+        for j in range(i,len(array)-1) :
+            if array[j] != array[j+1] :
+                count = 1 
+            elif array[j] == array[j+1] :
+                count += 1
+        if count > maxcount :
+            maxcount = count 
+
+    print(maxcount)
+
+source =  [1, 1,2,2,1,1,1,1]  
+maxcount(source) 
+
+OUTPUT : 4
+
+
+# (10) Repetition
+
+def check(array) :
+
+    max = -9999999999999999
+    flag = False 
+    temp_array = [0]*len(array)
+
+    for p in range(0,len(array)) :
+        if array[p] > max :
+            max = array[p]
+    leng = max + 1 
+    new_array = [0]*leng
+    
+    for j in range(0,len(new_array)) :
+       idx = j 
+       for i in range(0,len(array)) :
+           if idx == array[i] and array[i] not in temp_array and array[i] != 0 :
+               temp_array[i] = array[i]
+               new_array[array[i]] = 1
+           elif idx == array[i] and array[i] in temp_array and array[i] != 0 :
+                temp_array[i] = array[i]
+                new_array[array[i]] += 1 
+    
+    for p in range(0,len(new_array)) :
+        if new_array[p] > 1 :
+            temp = new_array[p]
+            for k in range(p+1,len(new_array)) :
+                if new_array[k] == temp :
+                    flag = True 
+    print(flag)
+
+source = [3,4,6,3,4,7,4,6,8,6,6]
+check(source)
+
+OUTPUT : False 
+

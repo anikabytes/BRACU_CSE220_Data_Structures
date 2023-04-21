@@ -1,0 +1,253 @@
+CSE220 LAB-7 
+-------------------------------------------------------------------------------------------
+NAME : ANIKA ISLAM 
+ID : 21101298
+SECTION : 04 
+-------------------------------------------------------------------------------------------
+
+# 1 
+def find_min_idx(a,start,end) :
+    if start == end :
+        return start 
+    else :
+        k = find_min_idx(a,start+1,end)
+        if a[k] < a[start] :
+            return k 
+        else :
+            return start 
+
+def selection_sort(a,left,right) :
+    if left == right :
+        return 
+    else :
+        min_idx = find_min_idx(a,left+1,right)
+        if a[min_idx] < a[left] :
+            temp = a[min_idx]
+            a[min_idx] = a[left]
+            a[left] = temp 
+        selection_sort(a,left+1,right)
+        
+arr = [4,2,7,5,6]
+selection_sort(arr,0,len(arr)-1)
+print(arr)
+
+OUTPUT:
+[2, 4, 5, 6, 7]
+
+
+
+# 2 
+def insertion_sort(a,left,right) :
+    if left == right :
+        return 
+    else :
+        insertion_sort(a,left,right-1) 
+        temp = a[right]
+        j = right - 1 
+        while j >= 0 and temp < a[j] :
+            a[j+1] = a[j]
+            j -= 1 
+        a[j+1] = temp 
+        
+  
+arr = [4,2,7,5,6]
+insertion_sort(arr,0,len(arr)-1)
+print(arr)
+
+OUTPUT:
+[2, 4, 5, 6, 7]
+
+
+
+# 3 
+class Node :
+    def __init__(self,elem,next) :
+        self.elem = elem 
+        self.next = next 
+
+class linkedList :
+    def __init__(self,a) :
+        if type(a) == list :
+            self.head = Node(a[0],None)
+            tail = self.head 
+            for i in range(1,len(a)) :
+                temp = Node(a[i],None)
+                tail.next = temp
+                tail = temp 
+
+    def printList(self) :
+        n = self.head 
+        store = ''
+        while n != None :
+            if n.next != None :
+                store += str(n.elem) + ','
+            else :
+                store += str(n.elem) 
+            n = n.next 
+        return store 
+
+    def bubble_sort(self,n) :
+        n1 = n
+        while n1.next != None :
+            n2 = n 
+            while n2 != n1 :
+                if n1.elem < n2.elem :
+                    temp = n2.elem 
+                    n2.elem = n1.elem 
+                    n1.elem = temp 
+                n2 = n2.next 
+            n1 = n1.next 
+        return n
+
+                
+lis = linkedList([4,2,7,5,6])
+lis.bubble_sort(lis.head)
+print('['+str(lis.printList())+']')
+
+OUTPUT:
+[2, 4, 5, 6, 7]
+
+
+
+# 4 
+class Node :
+    def __init__(self,elem,next) :
+        self.elem = elem 
+        self.next = next 
+class linkedList :
+    def __init__(self,a) :
+        if type(a) == list :
+            self.head = Node(a[0],None)
+            tail = self.head 
+            for i in range(1,len(a)) :
+                temp = Node(a[i],None)
+                tail.next = temp
+                tail = temp 
+
+    def printList(self) :
+        n = self.head 
+        store = ''
+        while n != None :
+            if n.next != None :
+                store += str(n.elem) + ','
+            else :
+                store += str(n.elem) 
+            n = n.next 
+        return store 
+
+    def selection_sort(self,n) :
+        n1 = n 
+        while n1 != None :
+            min = n1.elem 
+            min_loc = n1
+            n2 = n1.next 
+            while n2 != None :
+                if n2.elem < min :
+                    min = n2.elem 
+                    min_loc = n2
+                n2 = n2.next 
+            temp = n1.elem 
+            n1.elem = min_loc.elem
+            min_loc.elem = temp 
+            n1 = n1.next 
+        return n 
+
+
+lis = linkedList([4,2,7,5,6])
+lis.selection_sort(lis.head)
+print('['+str(lis.printList())+']')
+
+OUTPUT:
+[2,4,5,6,7]
+
+
+
+# 5 
+class Node :
+    def __init__(self,elem,next,prev) :
+        self.elem = elem 
+        self.next = next 
+        self.prev = prev
+class linkedList :
+    def __init__(self,a) :
+        if type(a) == list :
+            self.head = Node(a[0],None,None)
+            tail = self.head 
+            for i in range(1,len(a)) :
+                temp = Node(a[i],None,None)
+                tail.next = temp 
+                temp.prev = tail 
+                tail = temp 
+
+    def printList(self) :
+        n = self.head 
+        store = ''
+        while n != None :
+            if n.next != None :
+                store += str(n.elem) + ','
+            else :
+                store += str(n.elem) 
+            n = n.next 
+        return store
+
+    def insertion_sort(self,n) :
+        n1 = n 
+        while n1 != None :
+            n2 = n1.prev
+            while n2 != None :
+                if n2.elem > n2.next.elem :
+                    temp = n2.elem 
+                    n2.elem = n2.next.elem 
+                    n2.next.elem = temp 
+                n2 = n2.prev 
+            n1 = n1.next 
+        return n 
+
+
+
+
+lis = linkedList([4,2,7,5,6])
+lis.insertion_sort(lis.head)
+print('['+str(lis.printList())+']')
+
+OUTPUT:
+[2,4,5,6,7]
+
+
+
+# 6 
+def binary_search(a,val,left,right) :
+    if left > right :
+        return -1 
+    else :
+        mid = (left + right) // 2 
+        if a[mid] == val :
+            return mid 
+        elif a[mid] > val :
+            return binary_search(a,val,left,mid-1)
+        else :
+            return binary_search(a,val,mid+1,right)
+arr = [10,20,30,40,50,60,70,80]
+binary_search(arr,60,0,len(arr)-1)
+
+OUTPUT:
+5
+
+
+
+# 7 
+def fib(n) : 
+    if n == 0 or n == 1 :
+        return n 
+    else :
+        if a[n] == 0 :
+            a[n] = fib(n-1) + fib(n-2)
+            return a[n]
+        else :
+            return a[n]
+val = 7 
+a = [0]*(val+1)
+fib(val)
+
+OUTPUT:
+13
